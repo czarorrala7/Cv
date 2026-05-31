@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ing. César Orrala · Computer Science Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --card: #16161f;
+    --border: rgba(255,255,255,0.06);
+    --accent: #00e5ff;
+    --accent2: #7c3aed;
+    --accent3: #10b981;
+    --text: #f0f0f5;
+    --muted: #7a7a9a;
+    --gradient: linear-gradient(135deg, #00e5ff, #7c3aed);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ─────────────────── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: .4;
+  }
+
+  /* ── NAV ─────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: -.02em;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .nav-links {
+    display: flex; gap: 2.5rem; list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: .85rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    transition: color .3s;
+    font-weight: 400;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  .nav-cta {
+    background: var(--gradient);
+    color: #000 !important;
+    padding: .5rem 1.4rem !important;
+    border-radius: 100px;
+    font-weight: 500 !important;
+    -webkit-text-fill-color: #000 !important;
+    transition: opacity .3s !important;
+  }
+
+  .nav-cta:hover { opacity: .8; color: #000 !important; }
+
+  /* ── SECTIONS ────────────────────────── */
+  section { position: relative; z-index: 1; }
+
+  /* ── HERO ────────────────────────────── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: flex-start;
+    padding: 8rem 4rem 4rem;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,229,255,.12) 0%, transparent 70%);
+    top: -200px; right: -200px;
+    animation: pulse 6s ease-in-out infinite;
+  }
+
+  .hero-glow2 {
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124,58,237,.1) 0%, transparent 70%);
+    bottom: -100px; left: 200px;
+    animation: pulse 8s ease-in-out infinite reverse;
+  }
+ .hero-photo {
+    position: absolute;
+    right: 6rem;
+    top: 50%;
+    transform: translateY(-65%);
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid rgba(0,229,255,0.3);
+    box-shadow: 0 0 60px rgba(0,229,255,0.15), 0 0 0 8px rgba(0,229,255,0.05);
+    animation: fadeUp .8s .5s ease forwards;
+    opacity: 0;
+    flex-shrink: 0;
+  }
+
+  .hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+  @keyframes pulse {
+    0%,100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: .7; }
+  }
+
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: rgba(0,229,255,.08);
+    border: 1px solid rgba(0,229,255,.2);
+    color: var(--accent);
+    padding: .4rem 1rem;
+    border-radius: 100px;
+    font-size: .78rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    animation: fadeUp .8s ease forwards;
+    opacity: 0;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: blink 1.5s ease infinite;
+  }
+
+  @keyframes blink {
+    0%,100% { opacity: 1; }
+    50% { opacity: .2; }
+  }
+
+  .hero-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    line-height: .95;
+    letter-spacing: -.04em;
+    margin-bottom: 1.5rem;
+    animation: fadeUp .8s .1s ease forwards;
+    opacity: 0;
+  }
+
+  .hero-name span {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-role {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: var(--muted);
+    font-weight: 300;
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+    animation: fadeUp .8s .2s ease forwards;
+    opacity: 0;
+  }
+
+  .hero-stats {
+    display: flex; gap: 3rem;
+    animation: fadeUp .8s .3s ease forwards;
+    opacity: 0;
+  }
+
+  .hero-stat-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 2.2rem;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-stat-label {
+    font-size: .78rem;
+    color: var(--muted);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+
+  .hero-actions {
+    display: flex; gap: 1rem; margin-top: 3rem;
+    animation: fadeUp .8s .4s ease forwards;
+    opacity: 0;
+  }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: var(--gradient);
+    color: #000;
+    padding: .9rem 2rem;
+    border-radius: 100px;
+    font-weight: 500;
+    font-size: .9rem;
+    text-decoration: none;
+    transition: transform .2s, box-shadow .2s;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 40px rgba(0,229,255,.25);
+  }
+
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: transparent;
+    color: var(--text);
+    padding: .9rem 2rem;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    font-size: .9rem;
+    text-decoration: none;
+    transition: border-color .3s, color .3s;
+  }
+
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SCROLL INDICATOR ─────────────────── */
+  .scroll-indicator {
+    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: .5rem;
+    color: var(--muted); font-size: .7rem; letter-spacing: .1em;
+    text-transform: uppercase;
+    animation: fadeIn 1s 1.5s forwards;
+    opacity: 0;
+  }
+
+  .scroll-line {
+    width: 1px; height: 50px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: scrollDown 1.5s ease-in-out infinite;
+  }
+
+  @keyframes scrollDown {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  /* ── SECTION WRAPPER ──────────────────── */
+  .section-wrap {
+    padding: 6rem 4rem;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    display: inline-flex; align-items: center; gap: .6rem;
+    font-size: .72rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--accent);
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -.03em;
+    margin-bottom: 3.5rem;
+    line-height: 1.1;
+  }
+
+  .section-divider {
+    width: 100%; height: 1px;
+    background: var(--border);
+    margin: 0 4rem;
+  }
+
+  /* ── ABOUT ────────────────────────────── */
+  #about { background: var(--surface); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .about-text {
+    color: #bbbbd0;
+    line-height: 1.9;
+    font-size: 1.05rem;
+  }
+
+  .about-text p + p { margin-top: 1.2rem; }
+
+  .about-highlights {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+  }
+
+  .highlight-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: border-color .3s, transform .3s;
+  }
+
+  .highlight-card:hover {
+    border-color: rgba(0,229,255,.3);
+    transform: translateY(-4px);
+  }
+
+  .highlight-icon {
+    font-size: 1.5rem;
+    margin-bottom: .8rem;
+  }
+
+  .highlight-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: .9rem;
+    margin-bottom: .3rem;
+  }
+
+  .highlight-desc {
+    color: var(--muted);
+    font-size: .8rem;
+    line-height: 1.5;
+  }
+
+  /* ── SKILLS / TECH ─────────────────────── */
+  #skills { background: var(--bg); }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4rem 6rem;
+  }
+
+  .skill-group-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: .8rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    padding-bottom: .8rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── TECH ICONS GRID ─────────────────── */
+  .tech-icons-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 5rem;
+  }
+
+  .tech-icon-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .8rem;
+    cursor: default;
+  }
+
+  .tech-ring-wrapper {
+    position: relative;
+    width: 72px;
+    height: 72px;
+  }
+
+  .tech-ring-wrapper svg.ring-svg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    transform: rotate(-90deg);
+  }
+
+  .ring-bg {
+    fill: none;
+    stroke: rgba(255,255,255,.07);
+    stroke-width: 4;
+  }
+
+  .ring-fill {
+    fill: none;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: 188;
+    stroke-dashoffset: 188;
+    transition: stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1);
+  }
+
+  .tech-icon-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+  }
+
+  .tech-icon-name {
+    font-size: .7rem;
+    color: var(--muted);
+    letter-spacing: .05em;
+    text-align: center;
+  }
+
+  .tech-icon-pct {
+    font-family: 'Syne', sans-serif;
+    font-size: .62rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-align: center;
+    margin-top: -.4rem;
+  }
+
+  /* ── SOFT SKILLS ───────────────────────── */
+  .soft-skills {
+    display: flex; flex-wrap: wrap; gap: .8rem;
+  }
+
+  .soft-tag {
+    background: rgba(124,58,237,.1);
+    border: 1px solid rgba(124,58,237,.2);
+    color: #a78bfa;
+    padding: .45rem 1.1rem;
+    border-radius: 100px;
+    font-size: .8rem;
+    transition: background .3s;
+  }
+
+  .soft-tag:hover { background: rgba(124,58,237,.25); }
+
+  /* ── EXPERIENCE ────────────────────────── */
+  #experience { background: var(--surface); }
+
+  .exp-timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .exp-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px; bottom: 8px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+  }
+
+  .exp-item {
+    position: relative;
+    padding-left: 2.5rem;
+    padding-bottom: 3.5rem;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+
+  .exp-item.visible { opacity: 1; transform: none; }
+
+  .exp-item::before {
+    content: '';
+    position: absolute;
+    left: -2rem;
+    top: 6px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0,229,255,.15);
+  }
+
+  .exp-meta {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: .5rem;
+    flex-wrap: wrap; gap: .5rem;
+  }
+
+  .exp-company {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+  }
+
+  .exp-date {
+    font-size: .75rem;
+    color: var(--muted);
+    background: var(--card);
+    padding: .3rem .8rem;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+  }
+
+  .exp-role {
+    color: var(--accent);
+    font-size: .85rem;
+    font-weight: 400;
+    letter-spacing: .04em;
+    margin-bottom: 1rem;
+  }
+
+  .exp-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+  }
+
+  .exp-bullets li {
+    display: flex;
+    align-items: flex-start;
+    gap: .7rem;
+    font-size: .88rem;
+    color: #9999b8;
+    line-height: 1.6;
+  }
+
+  .exp-bullets li::before {
+    content: '→';
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: .05rem;
+  }
+
+  .exp-tags {
+    display: flex; flex-wrap: wrap; gap: .5rem;
+    margin-top: 1rem;
+  }
+
+  .exp-tag {
+    background: rgba(0,229,255,.06);
+    border: 1px solid rgba(0,229,255,.12);
+    color: var(--muted);
+    padding: .25rem .7rem;
+    border-radius: 6px;
+    font-size: .72rem;
+  }
+
+  /* ── EDUCATION ─────────────────────────── */
+  #education { background: var(--bg); }
+
+  .edu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .edu-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color .3s, transform .3s;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .6s ease, transform .6s ease, border-color .3s;
+  }
+
+  .edu-card.visible { opacity: 1; transform: none; }
+
+  .edu-card:hover {
+    border-color: rgba(0,229,255,.25);
+    transform: translateY(-6px) !important;
+  }
+
+  .edu-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gradient);
+    opacity: 0;
+    transition: opacity .3s;
+  }
+
+  .edu-card:hover::before { opacity: 1; }
+
+  .edu-icon {
+    font-size: 2rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .edu-degree {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: .3rem;
+    line-height: 1.3;
+  }
+
+  .edu-school {
+    color: var(--accent);
+    font-size: .8rem;
+    margin-bottom: .5rem;
+  }
+
+  .edu-type {
+    color: var(--muted);
+    font-size: .75rem;
+  }
+
+  /* ── CERTIFICATIONS ─────────────────────── */
+  .cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.2rem;
+    margin-top: 3.5rem;
+  }
+
+  .cert-card {
+    display: flex; align-items: center; gap: 1.2rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.2rem 1.5rem;
+    transition: border-color .3s, transform .3s;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity .5s ease, transform .5s ease, border-color .3s;
+  }
+
+  .cert-card.visible { opacity: 1; transform: none; }
+  .cert-card:hover { border-color: rgba(16,185,129,.3); transform: translateX(4px) !important; }
+
+  .cert-icon {
+    width: 40px; height: 40px;
+    background: rgba(16,185,129,.1);
+    border: 1px solid rgba(16,185,129,.2);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .cert-name {
+    font-size: .85rem;
+    line-height: 1.4;
+    color: #cccce0;
+  }
+
+  /* ── PROJECTS ──────────────────────────── */
+  #projects { background: var(--surface); }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    transition: border-color .3s, transform .3s;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+
+  .project-card.visible { opacity: 1; transform: none; }
+  .project-card:hover { border-color: rgba(124,58,237,.3); transform: translateY(-6px) !important; }
+
+  .project-client {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #a78bfa;
+    margin-bottom: .8rem;
+  }
+
+  .project-desc {
+    font-size: .85rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+  }
+
+  .project-stack {
+    font-size: .72rem;
+    color: rgba(0,229,255,.7);
+    letter-spacing: .05em;
+  }
+
+  /* ── CONTACT ───────────────────────────── */
+  #contact {
+    background: var(--bg);
+    text-align: center;
+  }
+
+  .contact-inner {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .contact-email {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    font-weight: 700;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    margin-bottom: 2rem;
+    text-decoration: none;
+    transition: opacity .3s;
+  }
+
+  .contact-email:hover { opacity: .75; }
+
+  .contact-links {
+    display: flex; justify-content: center; gap: 1.2rem;
+    flex-wrap: wrap;
+  }
+
+  .contact-link {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: .7rem 1.4rem;
+    border-radius: 100px;
+    font-size: .8rem;
+    text-decoration: none;
+    transition: border-color .3s, color .3s, transform .2s;
+  }
+
+  .contact-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  /* ── FOOTER ─────────────────────────────── */
+  footer {
+    text-align: center;
+    padding: 2rem 4rem;
+    color: var(--muted);
+    font-size: .75rem;
+    border-top: 1px solid var(--border);
+    letter-spacing: .05em;
+    position: relative; z-index: 1;
+  }
+
+  /* ── RESPONSIVE ──────────────────────────── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    #hero { padding: 7rem 1.5rem 3rem; }
+    .section-wrap { padding: 4rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .skills-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .tech-icons-grid { grid-template-columns: repeat(4, 1fr); }
+    .edu-grid { grid-template-columns: 1fr 1fr; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1.5rem; }
+	.hero-photo {
+      position: relative;
+      right: auto;
+      top: auto;
+      transform: none;
+      width: 140px;
+      height: 140px;
+      margin-top: 2.5rem;
+      opacity: 1;
+      animation: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .tech-icons-grid { grid-template-columns: repeat(3, 1fr); }
+    .edu-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Ing. César Orrala</div>
+  <ul class="nav-links">
+    <li><a href="#about">Perfil</a></li>
+    <li><a href="#skills">Stack</a></li>
+    <li><a href="#experience">Trayectoria</a></li>
+    <li><a href="#education">Formación</a></li>
+    <li><a href="#projects">Proyectos</a></li>
+    <li><a href="#contact" class="nav-cta">Contacto</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+
+  <div class="hero-tag">Disponible para nuevos retos</div>
+
+  <h1 class="hero-name">
+   Ing. César<br><span>Orrala Y.</span>
+  </h1>
+<div class="hero-photo">
+    <img src="RUTA_DE_TU_FOTO" alt="César Orrala">
+  </div>
+  <p class="hero-role">
+    Software Engineer · Tech Leader · Digital Innovator.<br>
+    Más de 10 años construyendo soluciones empresariales que transforman la operación en resultados reales.
+  </p>
+
+  <div class="hero-stats">
+    <div>
+      <div class="hero-stat-num">10+</div>
+      <div class="hero-stat-label">Años de experiencia</div>
+    </div>
+    <div>
+      <div class="hero-stat-num">6+</div>
+      <div class="hero-stat-label">Empresas impactadas</div>
+    </div>
+    <div>
+      <div class="hero-stat-num">15+</div>
+      <div class="hero-stat-label">Proyectos entregados</div>
+    </div>
+  </div>
+
+  <div class="hero-actions">
+    <a href="#contact" class="btn-primary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Conversemos
+    </a>
+    <a href="#experience" class="btn-secondary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+      Ver trayectoria
+    </a>
+  </div>
+
+  <div class="scroll-indicator">
+    <span>scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-wrap">
+    <div class="section-label">Sobre mí</div>
+    <h2 class="section-title">Tecnología que<br>genera impacto real</h2>
+
+    <div class="about-grid">
+      <div class="about-text">
+        <p>Soy Ingeniero en Ciencia de la Computación con más de 10 años de experiencia en el desarrollo de soluciones empresariales de alto impacto. He liderado transformaciones digitales en sectores como inmobiliario, bancario, construcción e industrial.</p>
+        <p>Me especializo en la integración de sistemas ERP, arquitectura de aplicaciones escalables y la aplicación de metodologías ágiles para garantizar entregas eficientes con alta calidad. Mi enfoque está en alinear la tecnología con los objetivos estratégicos del negocio para generar valor sostenible.</p>
+        <p>Combino liderazgo técnico con visión de negocio: desde la planificación estratégica y el seguimiento de KPIs, hasta la presentación de resultados a stakeholders y dirección ejecutiva.</p>
+      </div>
+
+      <div class="about-highlights">
+        <div class="highlight-card">
+          <div class="highlight-icon">🚀</div>
+          <div class="highlight-title">Transformación Digital</div>
+          <div class="highlight-desc">Digitalización de procesos y cultura de innovación orientada al usuario</div>
+        </div>
+        <div class="highlight-card">
+          <div class="highlight-icon">🏗️</div>
+          <div class="highlight-title">Arquitectura ERP</div>
+          <div class="highlight-desc">Integración de NetSuite, SAP B1/HANA y CRM Salesforce</div>
+        </div>
+        <div class="highlight-card">
+          <div class="highlight-icon">⚡</div>
+          <div class="highlight-title">Metodologías Ágiles</div>
+          <div class="highlight-desc">Scrum y Kanban para entregas eficientes con equipos multidisciplinarios</div>
+        </div>
+        <div class="highlight-card">
+          <div class="highlight-icon">📊</div>
+          <div class="highlight-title">Business Intelligence</div>
+          <div class="highlight-desc">Power BI, OLAP, KPIs y reporting ejecutivo para toma de decisiones</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-wrap">
+    <div class="section-label">Stack técnico</div>
+    <h2 class="section-title">Herramientas &<br>tecnologías</h2>
+
+    <!-- TECH ICONS WITH ANIMATED RINGS -->
+    <div class="tech-icons-grid" id="techGrid">
+
+      <!-- Languages -->
+      <div class="tech-icon-item">
+        <div class="tech-ring-wrapper">
+          <svg class="ring-svg" viewBox="0 0 72 72">
+            <circle class="ring-bg" cx="36" cy="36" r="30"/>
+            <circle class="ring-fill" cx="36" cy="36" r="30" stroke="#00e5ff" data-pct="90"/>
+          </svg>
+          <div class="tech-icon-center">💎</div>
+        </div>
+        <div class="tech-icon-name">C# .NET</div>
+        <div class="tech-icon-pct">90%</div>
+      </div>
+
+      <div class="tech-icon-item">
+        <div class="tech-ring-wrapper">
+          <svg class="ring-svg" viewBox="0 0 72 72">
+            <circle class="ring-bg" cx="36" cy="36" r="30"/>
+            <circle class="ring-fill" cx="36" cy="36" r="30" stroke="#7c3aed" data-pct="85"/>
+          </svg>
+          <div class="tech-icon-center">🐍</div>
+        </div>
+        <div class="tech-icon-name">Python</div>
+        <div class="tech-icon-pct">85%</div>
+      </div>
+
+      <div class="tech-icon-item">
+        <div class="tech-ring-wrapper">
+          <svg class="ring-svg" viewBox="0 0 72 72">
+            <circle class="ring-bg" cx="36" cy="36" r="30"/>
+            <circle class="ring-fill" cx="36" cy="36" r="30" stroke="#f59e0b" data-pct="75"/>
+          </svg>
+          <div class="tech-icon-center">⚡</div>
+        </div>
+        <div class="tech-icon-name">JavaScript</div>
+        <div class="tech-icon-pct">75%</div>
+      </div>
+
+      <div class="tech-icon-item">
+        <div class="tech-ring-wrapper">
+          <svg class="ring-svg" viewBox="0 0 72 72">
+            <circle class="ring-bg" cx="36" cy="36" r="30"/>
+            <circle class="ring-fill" cx="36" cy="36" r="30" stroke="#10b981" data-pct="70"/>
+          </svg>
+          <div class="tech-icon-center">🔷</div>
+        </div>
+        <div class="tech-icon-name">VB.NET</div>
+        <div class="tech-icon-pct">70%</div>
+      </div>
+
+      <div class="tech-icon-item">
+        <div class="tech-ring-wrapper">
+          <svg class="ring-svg" viewBox="0 0 72 72">
+            <circle class="ring-bg" cx="36" cy="36" r="30"/>
+            <circle class="ring-fill" cx="36" cy="36" r="30" stroke="#f97316" data-pct="65"/>
+          </svg>
+          <div class="tech-icon-center">🖥️</div>
+        </div>
+        <div class="tech-icon-name">RPG/AS400</div>
+        <div class="tech-icon-pct">65%</div>
+      </div>
+
+      <!-- Databases -->
+      <div class="tech-icon-item">
+        <div class="tech-ring-wrapper">
+          <svg class="ring-svg" viewBox="0 0 72 72">
+            <circle class="ring-bg" cx="36" cy="36" r="30"/>
+            <circle class="ring-fill" cx="36" cy="36" r="30" stroke="#00e5ff" data-pct="92"/>
+          </svg>
+          <div class="tech-icon-center">🗄️</div>
+        </div>
+        <div class="tech-icon-name">SQL Server</div>
+        <div class="tech-icon-pct">92%</div>
+      </div>
+
+      <div class="tech-icon-item">
+        <div class="tech-ring-wrapper">
+          <svg class="ring-svg" viewBox="0 0 72 72">
+            <circle class="ring-bg" cx="36" cy="36" r="30"/>
+            <circle class="ring-fill" cx="36" cy="36" r="30" stroke="#7c3aed" data-pct="85"/>
+          </svg>
+          <div class="tech-icon-center">🐘</div>
+        </div>
+        <div class="tech-icon-name">PostgreSQL</div>
+        <div class="tech-icon-pct">85%</div>
+      </div>
+
+      <div class="tech-icon-item">
+        <div class="tech-ring-wrapper">
+          <svg class="ring-svg" viewBox="0 0 72 72">
+            <circle class="ring-bg" cx="36" cy="36" r="30"/>
+            <circle class="ring-fill" cx="36" cy="36" r="30" stroke="#f59e0b" data-pct="80"/>
+          </svg>
+          <div class="tech-icon-center">🐬</div>
+        </div>
+        <div class="tech-icon-name">MySQL</div>
+        <div class="tech-icon-pct">80%</div>
+      </div>
+
+      <div class="tech-icon-item">
+        <div class="tech-ring-wrapper">
+          <svg class="ring-svg" viewBox="0 0 72 72">
+            <circle class="ring-bg" cx="36" cy="36" r="30"/>
+            <circle class="ring-fill" cx="36" cy="36" r="30" stroke="#10b981" data-pct="72"/>
+          </svg>
+          <div class="tech-icon-center">🍃</div>
+        </div>
+        <div class="tech-icon-name">MongoDB</div>
+        <div class="tech-icon-pct">72%</div>
+      </div>
+
+      <!-- Tools -->
+      <div class="tech-icon-item">
+        <div class="tech-ring-wrapper">
+          <svg class="ring-svg" viewBox="0 0 72 72">
+            <circle class="ring-bg" cx="36" cy="36" r="30"/>
+            <circle class="ring-fill" cx="36" cy="36" r="30" stroke="#f97316" data-pct="100"/>
+          </svg>
+          <div class="tech-icon-center">
+            <svg width="26" height="26" viewBox="0 0 97.75 97.75" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M94.7 44.1 53.6 3 49.7 -0.9c-1-.9-2.6-.9-3.5 0L42.3 3 1.1 44.1c-1.5 1.5-1.5 3.9 0 5.3l2 2c0.7 0.7 1.7 1.1 2.7 1.1 1 0 2-0.4 2.7-1.1l2.5-2.5v40.3c0 4.1 3.3 7.4 7.4 7.4h21.3V73.9h12.6v22.7h21.3c4.1 0 7.4-3.3 7.4-7.4V48.9l2.5 2.5c0.7 0.7 1.7 1.1 2.7 1.1 1 0 2-0.4 2.7-1.1l2-2c1.5-1.4 1.5-3.8 0-5.3z" fill="#f97316"/>
+            </svg>
+          </div>
+        </div>
+        <div class="tech-icon-name">NetSuite</div>
+        <div class="tech-icon-pct">100%</div>
+      </div>
+
+      <div class="tech-icon-item">
+        <div class="tech-ring-wrapper">
+          <svg class="ring-svg" viewBox="0 0 72 72">
+            <circle class="ring-bg" cx="36" cy="36" r="30"/>
+            <circle class="ring-fill" cx="36" cy="36" r="30" stroke="#00e5ff" data-pct="88"/>
+          </svg>
+          <div class="tech-icon-center">📊</div>
+        </div>
+        <div class="tech-icon-name">Power BI</div>
+        <div class="tech-icon-pct">88%</div>
+      </div>
+
+      <div class="tech-icon-item">
+        <div class="tech-ring-wrapper">
+          <svg class="ring-svg" viewBox="0 0 72 72">
+            <circle class="ring-bg" cx="36" cy="36" r="30"/>
+            <circle class="ring-fill" cx="36" cy="36" r="30" stroke="#7c3aed" data-pct="82"/>
+          </svg>
+          <div class="tech-icon-center">☁️</div>
+        </div>
+        <div class="tech-icon-name">Salesforce</div>
+        <div class="tech-icon-pct">82%</div>
+      </div>
+
+      <div class="tech-icon-item">
+        <div class="tech-ring-wrapper">
+          <svg class="ring-svg" viewBox="0 0 72 72">
+            <circle class="ring-bg" cx="36" cy="36" r="30"/>
+            <circle class="ring-fill" cx="36" cy="36" r="30" stroke="#10b981" data-pct="85"/>
+          </svg>
+          <div class="tech-icon-center">
+            <!-- Git icon SVG -->
+            <svg width="24" height="24" viewBox="0 0 92 92" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M90.16 41.88 50.13 1.84a5.93 5.93 0 0 0-8.39 0L33.44 10.1l10.59 10.59a7.03 7.03 0 0 1 8.91 8.97l10.2 10.2a7.03 7.03 0 1 1-4.22 4l-9.51-9.51v25.01a7.04 7.04 0 1 1-5.77-.25V34.18a7.04 7.04 0 0 1-3.82-9.24L29.26 14.39l-27.4 27.4a5.93 5.93 0 0 0 0 8.39l40.04 40.04a5.93 5.93 0 0 0 8.39 0l40.88-40.88a5.93 5.93 0 0 0 0-8.46z" fill="#10b981"/>
+            </svg>
+          </div>
+        </div>
+        <div class="tech-icon-name">Git</div>
+        <div class="tech-icon-pct">85%</div>
+      </div>
+
+      <div class="tech-icon-item">
+        <div class="tech-ring-wrapper">
+          <svg class="ring-svg" viewBox="0 0 72 72">
+            <circle class="ring-bg" cx="36" cy="36" r="30"/>
+            <circle class="ring-fill" cx="36" cy="36" r="30" stroke="#0052cc" data-pct="90"/>
+          </svg>
+          <div class="tech-icon-center">🔵</div>
+        </div>
+        <div class="tech-icon-name">Jira</div>
+        <div class="tech-icon-pct">90%</div>
+      </div>
+
+      <div class="tech-icon-item">
+        <div class="tech-ring-wrapper">
+          <svg class="ring-svg" viewBox="0 0 72 72">
+            <circle class="ring-bg" cx="36" cy="36" r="30"/>
+            <circle class="ring-fill" cx="36" cy="36" r="30" stroke="#f59e0b" data-pct="80"/>
+          </svg>
+          <div class="tech-icon-center">🟠</div>
+        </div>
+        <div class="tech-icon-name">SAP B1</div>
+        <div class="tech-icon-pct">80%</div>
+      </div>
+	  <div class="tech-icon-item">
+        <div class="tech-ring-wrapper">
+          <svg class="ring-svg" viewBox="0 0 72 72">
+            <circle class="ring-bg" cx="36" cy="36" r="30"/>
+            <circle class="ring-fill" cx="36" cy="36" r="30" stroke="#ffffff" data-pct="88"/>
+          </svg>
+          <div class="tech-icon-center">
+            <svg width="24" height="24" viewBox="0 0 98 96" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M49 0C22 0 0 22 0 49c0 21.6 14 40 33.4 46.5 2.4.5 3.3-1 3.3-2.3v-8c-13.6 3-16.5-6.5-16.5-6.5-2.2-5.7-5.4-7.2-5.4-7.2-4.5-3 .3-3 .3-3 5 .4 7.6 5.1 7.6 5.1 4.4 7.5 11.5 5.4 14.3 4.1.4-3.2 1.7-5.4 3.1-6.6-10.8-1.2-22.2-5.4-22.2-24.2 0-5.4 1.9-9.8 5-13.2-.5-1.2-2.2-6.3.5-13 0 0 4.1-1.3 13.4 5 3.9-1.1 8-1.6 12.2-1.6 4.1 0 8.3.5 12.2 1.6 9.3-6.4 13.4-5 13.4-5 2.7 6.8 1 11.8.5 13 3.2 3.4 5 7.8 5 13.2 0 18.9-11.5 23-22.4 24.2 1.7 1.5 3.3 4.5 3.3 9v13.3c0 1.3.9 2.8 3.3 2.3C84 89 98 70.6 98 49 98 22 76 0 49 0z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="tech-icon-name">GitHub</div>
+        <div class="tech-icon-pct">88%</div>
+      </div>
+
+    </div>
+
+    <!-- SOFT SKILLS -->
+    <div class="skills-grid">
+      <div>
+        <div class="skill-group-title">Liderazgo & Gestión</div>
+        <div class="soft-skills">
+          <span class="soft-tag">Gestión de proyectos ágiles</span>
+          <span class="soft-tag">Scrum Master</span>
+          <span class="soft-tag">Kanban</span>
+          <span class="soft-tag">Gestión del tiempo</span>
+          <span class="soft-tag">Desarrollo de talento técnico</span>
+          <span class="soft-tag">KPIs & OKRs</span>
+          <span class="soft-tag">Stakeholder management</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-title">Competencias Transversales</div>
+        <div class="soft-skills">
+          <span class="soft-tag">Adaptabilidad tecnológica</span>
+          <span class="soft-tag">Ética profesional</span>
+          <span class="soft-tag">Aprendizaje continuo</span>
+          <span class="soft-tag">Digitalización de procesos</span>
+          <span class="soft-tag">Innovación orientada al usuario</span>
+          <span class="soft-tag">Pensamiento estratégico</span>
+          <span class="soft-tag">Comunicación ejecutiva</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-wrap">
+    <div class="section-label">Historial laboral</div>
+    <h2 class="section-title">Trayectoria<br>profesional</h2>
+
+    <div class="exp-timeline">
+
+      <div class="exp-item">
+        <div class="exp-meta">
+          <div class="exp-company">Corporación Inmobiliare Internacional</div>
+          <div class="exp-date">Feb 2025 — Actualidad</div>
+        </div>
+        <div class="exp-role">Líder de Aplicaciones Tecnológicas e Innovación</div>
+        <ul class="exp-bullets">
+          <li>Supervisión y control del ciclo de vida completo de nuevos productos y soluciones tecnológicas</li>
+          <li>Aplicación de Scrum y Kanban para garantizar entregas eficientes con estándares de calidad</li>
+          <li>Planificación estratégica, seguimiento de KPIs y coordinación de equipos multidisciplinarios</li>
+          <li>Presentación de resultados e informes de avance a stakeholders y dirección ejecutiva</li>
+        </ul>
+        <div class="exp-tags">
+          <span class="exp-tag">Jira</span>
+          <span class="exp-tag">Oracle NetSuite</span>
+          <span class="exp-tag">DevOps</span>
+          <span class="exp-tag">Power BI</span>
+          <span class="exp-tag">Salesforce CRM</span>
+          <span class="exp-tag">Monday</span>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-meta">
+          <div class="exp-company">Holcim Ecuador</div>
+          <div class="exp-date">Oct 2023 — Oct 2024</div>
+        </div>
+        <div class="exp-role">Analista Digital</div>
+        <ul class="exp-bullets">
+          <li>Integración de centros de costos al ERP de franquicias Disensa para distribución detallada de movimientos</li>
+          <li>Provisión de valores exactos por cada punto de venta mejorando la trazabilidad financiera</li>
+        </ul>
+        <div class="exp-tags">
+          <span class="exp-tag">C#</span>
+          <span class="exp-tag">SQL</span>
+          <span class="exp-tag">DevExpress</span>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-meta">
+          <div class="exp-company">Banco de Machala</div>
+          <div class="exp-date">Mar 2021 — Sep 2023</div>
+        </div>
+        <div class="exp-role">Especialista de Software</div>
+        <ul class="exp-bullets">
+          <li>Desarrollo e implementación de proyectos en Colocaciones: sistema de reportería para Ahorro Programado</li>
+          <li>Soporte al core bancario: creación de nuevos requerimientos y mantenimiento de desarrollos existentes</li>
+        </ul>
+        <div class="exp-tags">
+          <span class="exp-tag">React</span>
+          <span class="exp-tag">SQL Server</span>
+          <span class="exp-tag">RPG/AS400</span>
+          <span class="exp-tag">C#</span>
+          <span class="exp-tag">DevExpress</span>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-meta">
+          <div class="exp-company">Sipecom</div>
+          <div class="exp-date">Ene 2019 — Mar 2021 / Ene 2014 — Sep 2015</div>
+        </div>
+        <div class="exp-role">Desarrollador de Software Senior</div>
+        <ul class="exp-bullets">
+          <li>Diseño e implementación de soluciones para Junta de Beneficencia, Grupo Unicomer, Latina Salud y Banco Bolivariano</li>
+          <li>Levantamiento de requerimientos, modelado de bases de datos y definición de arquitectura</li>
+          <li>Desarrollo de ERP para seguros médicos prepagados e integración SAP con plataformas internas</li>
+        </ul>
+        <div class="exp-tags">
+          <span class="exp-tag">C#</span>
+          <span class="exp-tag">VB.NET</span>
+          <span class="exp-tag">.NET Core</span>
+          <span class="exp-tag">Oracle</span>
+          <span class="exp-tag">AWS</span>
+          <span class="exp-tag">Cubos OLAP</span>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-meta">
+          <div class="exp-company">TrinitySoft</div>
+          <div class="exp-date">Jun 2017 — Dic 2018</div>
+        </div>
+        <div class="exp-role">Desarrollador de Software Semi Senior</div>
+        <ul class="exp-bullets">
+          <li>Integración de módulo contable en ERP que centraliza la gestión administrativa, financiera y de inventarios</li>
+          <li>Soporte continuo a módulos existentes y mejoras al sistema de gestión de productos</li>
+        </ul>
+        <div class="exp-tags">
+          <span class="exp-tag">SQL</span>
+          <span class="exp-tag">VB.NET</span>
+          <span class="exp-tag">C#</span>
+          <span class="exp-tag">WCF</span>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-meta">
+          <div class="exp-company">Asestecno S.A.</div>
+          <div class="exp-date">Oct 2015 — Dic 2016</div>
+        </div>
+        <div class="exp-role">Desarrollador de Software</div>
+        <ul class="exp-bullets">
+          <li>Desarrollo y soporte de soluciones de software a medida para clientes corporativos</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-wrap">
+    <div class="section-label">Formación académica</div>
+    <h2 class="section-title">Educación &<br>certificaciones</h2>
+
+    <div class="edu-grid">
+      <div class="edu-card">
+        <div class="edu-icon">🎓</div>
+        <div class="edu-degree">Ingeniero en Ciencia de la Computación</div>
+        <div class="edu-school">Universidad de Especialidades Espíritu Santo</div>
+        <div class="edu-type">Ingeniería · Tercer Nivel</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-icon">🏫</div>
+        <div class="edu-degree">Tecnólogo en Análisis de Sistemas</div>
+        <div class="edu-school">Tecnológico Liceo Cristiano de Guayaquil</div>
+        <div class="edu-type">Tecnología · Tercer Nivel</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-icon">📚</div>
+        <div class="edu-degree">Ciencias Administrativas e Informática</div>
+        <div class="edu-school">Unidad Educativa Liceo Cristiano de Guayaquil</div>
+        <div class="edu-type">Bachillerato</div>
+      </div>
+    </div>
+
+    <div class="cert-grid">
+       <div class="cert-card" style="cursor:pointer;" onclick="window.open('https://skillsoft.digitalbadges-eu.skillsoft.com/a1a8b303-bee0-42c7-b679-ef878890089c#acc.qR8vp6ZX','_blank')">
+        <div class="cert-icon">🤖</div>
+        <div class="cert-name">Leading in the Age of Generative AI</div>
+      </div>
+      <div class="cert-card" style="cursor:pointer;" onclick="window.open('https://www.linkedin.com/learning/certificates/4d06944630ad3fa6975f48301be0fc8b36e2db44aefc217eccf1654bea543ffc','_blank')">
+        <div class="cert-icon">📈</div>
+        <div class="cert-name">Data Scientist: Minería de Datos Esencial</div>
+      </div>
+      <div class="cert-card" style="cursor:pointer;" onclick="window.open('https://www.linkedin.com/learning/certificates/7e5448f7893409ad7df5c3faa86a94d3aedd8bf36ac8ab117b661a6f759f0133?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_certifications_details%3B7uTjhQo%2BTmC8MorZWnAQjw%3D%3D','_blank')">
+        <div class="cert-icon">🌐</div>
+        <div class="cert-name">Fundamentos de Big Data</div>
+      </div>
+      <div class="cert-card" style="cursor:pointer;" onclick="window.open('https://skillsoft.digitalbadges-eu.skillsoft.com/3f7641b8-5d7c-4c28-9aff-6dbc1896bff8#acc.HoLl8zmb','_blank')">
+        <div class="cert-icon">🔐</div>
+        <div class="cert-name">CBROPS: La tríada de la CIA y enfoques de seguridad</div>
+      </div>
+      <div class="cert-card" style="cursor:pointer;" onclick="window.open('https://drive.google.com/file/u/1/d/1yppgEUFkvuPcmLDe3_jnJDFzD6nkKoXu/view','_blank')">
+        <div class="cert-icon">📊</div>
+        <div class="cert-name">Power BI Intermedio-Avanzado</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-wrap">
+    <div class="section-label">Portfolio</div>
+    <h2 class="section-title">Proyectos<br>freelance destacados</h2>
+
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-client">Terminal Terrestre de Guayaquil</div>
+        <div class="project-desc">Sistema integral de gestión y digitalización documental con OCR, control de calidad, indexación y generación de reportes. Sistema web de acceso documental por perfil con descarga de archivos, marcas de agua y generación de códigos QR.</div>
+        <div class="project-stack">Stack: .NET 8.0 · Microservicios · OCR</div>
+      </div>
+      <div class="project-card">
+        <div class="project-client">UNEMI</div>
+        <div class="project-desc">Gestor documental integrado a sistema de digitalización: control de ingresos/egresos, localidades y documentación multi-edificio. Sistema de digitalización con importación masiva de PDF, indexado de registros y parametrización de funcionalidades.</div>
+        <div class="project-stack">Stack: C# .NET 4.8 · PostgreSQL · Microservicios</div>
+      </div>
+      <div class="project-card">
+        <div class="project-client">Fun. Gente de Mar</div>
+        <div class="project-desc">Sistema de gestión educativa para administración de alumnos, cursos, evaluaciones en línea, notas y asistencias. Incluye reportes bajo normativa ISO y módulos de seguimiento académico integral.</div>
+        <div class="project-stack">Stack: C# · SQL Server · .NET</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-wrap">
+    <div class="contact-inner">
+      <div class="section-label" style="justify-content:center">Contacto</div>
+      <h2 class="section-title" style="text-align:center">¿Listo para<br>construir algo grande?</h2>
+
+      <p style="color:var(--muted); margin-bottom:2.5rem; font-size:.95rem; line-height:1.7;">
+        Estoy abierto a nuevas oportunidades, proyectos de consultoría y colaboraciones. No dudes en escribirme.
+      </p>
+
+      <a href="mailto:cesar.orrala@gmail.com" class="contact-email">cesar.orrala@gmail.com</a>
+
+      <div class="contact-links">
+        <a href="https://wa.me/593967843494" target="_blank" class="contact-link">.hero-glow2 {
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6.29 6.29l.92-.92a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          +593 967 843 494
+        </a>
+        <a href="https://linkedin.com/in/corralay" target="_blank" class="contact-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn · @corralay
+        </a>
+        <a href="mailto:cesar.orrala@gmail.com" class="contact-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Enviar mensaje
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 César Antonio Orrala Y. · Diseñado con precisión · Guayaquil, Ecuador</p>
+</footer>
+
+<script>
+  // ── ANIMATED RINGS ─────────────────────────────
+  const circumference = 2 * Math.PI * 30; // r=30
+
+  function animateRings() {
+    const rings = document.querySelectorAll('.ring-fill');
+    const grid = document.getElementById('techGrid');
+    const rect = grid.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight - 100;
+
+    if (inView && !grid.dataset.animated) {
+      grid.dataset.animated = 'true';
+      rings.forEach((ring, i) => {
+        const pct = parseInt(ring.dataset.pct) / 100;
+        const offset = circumference * (1 - pct);
+        setTimeout(() => {
+          ring.style.strokeDashoffset = offset;
+        }, i * 80);
+      });
+    }
+  }
+
+  // ── SCROLL REVEAL ──────────────────────────────
+  const revealEls = document.querySelectorAll('.exp-item, .edu-card, .cert-card, .project-card');
+
+  function revealOnScroll() {
+    revealEls.forEach((el, i) => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 80) {
+        setTimeout(() => el.classList.add('visible'), i % 3 * 100);
+      }
+    });
+    animateRings();
+  }
+
+  window.addEventListener('scroll', revealOnScroll, { passive: true });
+  revealOnScroll();
+
+  // ── ACTIVE NAV ─────────────────────────────────
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current
+        ? 'var(--accent)' : '';
+    });
+  }, { passive: true });
+</script>
+
+</body>
+</html>
